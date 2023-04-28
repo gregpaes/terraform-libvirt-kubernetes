@@ -1,0 +1,26 @@
+#cloud-config
+hostname: ${hostname}
+fqdn: ${fqdn}
+manage_etc_hosts: true
+# add each entry to ~/.ssh/authorized_keys for the configured user or the
+# first user defined in the user definition directive.
+users:
+  - name: ubuntu
+    ssh_authorized_keys:
+      - ${ssh_authorized_keys}
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    groups: wheel
+
+# By default, the fingerprints of the authorized keys for the users
+# cloud-init adds are printed to the console. Setting
+# no_ssh_fingerprints to true suppresses this output.
+no_ssh_fingerprints: false
+
+# By default, (most) ssh host keys are printed to the console. Setting
+# emit_keys_to_console to false suppresses this output.
+ssh:
+  emit_keys_to_console: false
+#runcmd:
+#  # Set hostname
+#  - hostnamectl set-hostname ${hostname}
